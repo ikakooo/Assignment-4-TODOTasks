@@ -1,4 +1,4 @@
-package com.example.assignment4todotasks
+package com.cst.todotasks
 
 import org.junit.Test
 
