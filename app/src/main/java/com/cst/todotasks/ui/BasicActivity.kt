@@ -1,25 +1,21 @@
 package com.cst.todotasks.ui
 
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.PopupMenu
 import androidx.navigation.findNavController
 import androidx.viewbinding.ViewBinding
-import com.cst.todotasks.Constants.firstFragmentPath
+import com.cst.todotasks.Constants.taskListFragment
 import com.cst.todotasks.R
-import com.cst.todotasks.databinding.ActivityMainBinding
+import com.cst.todotasks.databinding.ActivityBasicBinding
 
 class BasicActivity : AppCompatActivity() {
-    private val binding by viewBinding(ActivityMainBinding::inflate)
+    private val binding by viewBinding(ActivityBasicBinding::inflate)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +24,7 @@ class BasicActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         val navController = findNavController(R.id.nav_host_fragment)
+
 
         // replaceFragment(R.id.fragment_container, TaskListFragment.createInstance())
 //        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
@@ -38,15 +35,25 @@ class BasicActivity : AppCompatActivity() {
         binding.fab.apply {
             setOnClickListener {
 //                setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_edit))
-                if (firstFragmentPath == navController.currentDestination.toString()) {
-                    binding.toolbar.title = "ikakk"
+                if (taskListFragment == navController.currentDestination.toString()) {
+                    binding.toolbar.title = "Todo"
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    supportActionBar?.setDisplayShowHomeEnabled(true)
+
                     setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_edit))
-                    navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
+
+                    navController.navigate(R.id.action_TaskListFragment_to_NewTaskFragment)
+
 
                 } else {
+                    binding.toolbar.title = "New Task"
+
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    supportActionBar?.setDisplayShowHomeEnabled(false)
                     setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_add))
 //                    setBackgroundResource(R.drawable.ic_add)
-                    navController.navigate(R.id.action_SecondFragment_to_FirstFragment)
+                    navController.navigate(R.id.action_NewTaskFragment_to_TaskListFragment)
+
 
 
                 }
@@ -55,14 +62,14 @@ class BasicActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-
-
-        val navController = findNavController(R.id.nav_host_fragment)
-
-
-        return navController.navigateUp() || super.onSupportNavigateUp()
-    }
+//    override fun onSupportNavigateUp(): Boolean {
+//
+//
+//        val navController = findNavController(R.id.nav_host_fragment)
+//
+//
+//        return navController.navigateUp() || super.onSupportNavigateUp()
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {

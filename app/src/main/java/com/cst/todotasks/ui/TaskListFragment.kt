@@ -1,70 +1,37 @@
 package com.cst.todotasks.ui
 
 import android.os.Bundle
-import android.view.*
-import androidx.appcompat.widget.PopupMenu
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import androidx.navigation.fragment.findNavController
 import com.cst.todotasks.R
+import com.cst.todotasks.databinding.FragmentTaskListBinding
 
 /**
- * Created by nikolozakhvlediani on 12/24/20.
+ * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class TaskListFragment : Fragment(R.layout.fragment_task_list) {
+    private lateinit var binding: FragmentTaskListBinding
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        val view = inflater.inflate(R.layout.fragment_task_list, container, false)
-//        //setHasOptionsMenu(true)
-//        return view
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem) =
-//        when (item.itemId) {
-//            R.id.menu_clear -> {
-//                // TODO თქვენი კოდი
-//                true
-//            }
-//            R.id.menu_filter -> {
-//                showFilteringPopUpMenu()
-//                true
-//            }
-//            else -> false
-//        }
-//
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.tasks_fragment_menu, menu)
-//    }
-//
-//    private fun showFilteringPopUpMenu() {
-//        val view = activity?.findViewById<View>(R.id.menu_filter) ?: return
-//        PopupMenu(requireContext(), view).run {
-//            menuInflater.inflate(R.menu.filter_tasks, menu)
-//
-//            setOnMenuItemClickListener {
-//                when (it.itemId) {
-//                    R.id.active -> {
-//                        // TODO თქვენი კოდი
-//                    }
-//                    R.id.completed -> {
-//                        // TODO თქვენი კოდი
-//                    }
-//                    else -> {
-//                        // TODO თქვენი კოდი
-//                    }
-//                }
-//                true
-//            }
-//            show()
-//        }
-//    }
-
-    companion object {
-
-        fun createInstance() = TaskListFragment()
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentTaskListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        view.findViewById<Button>(R.id.button_first).setOnClickListener {
+            findNavController().navigate(R.id.action_TaskListFragment_to_NewTaskFragment)
+        }
+    }
 }
