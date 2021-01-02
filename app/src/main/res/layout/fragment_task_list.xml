@@ -18,13 +18,16 @@
     <TextView
         android:id="@+id/headerTextView_ID"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/hello_first_fragment"
+        android:layout_height="wrap_content"
+        android:text="@string/all_task"
+        android:textSize="30sp"
+        android:layout_margin="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="10dp"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

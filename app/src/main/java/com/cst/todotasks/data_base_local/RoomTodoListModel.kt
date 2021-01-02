@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "Todo_List")
 data class RoomTodoListModel (
     @PrimaryKey(autoGenerate = true) val id : Long?=null,
-    @ColumnInfo(name = "header") val header:String,
     @ColumnInfo(name = "title") val title:String,
+    @ColumnInfo(name = "description") val description:String,
     @ColumnInfo(name = "isActive") val isActive:Boolean
 )

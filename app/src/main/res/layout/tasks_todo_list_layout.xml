@@ -7,13 +7,13 @@
     android:orientation="horizontal">
 
     <CheckBox
-        android:layout_gravity="center"
-        android:id="@+id/actorProfilePhoto_ImageView_ID"
+        android:id="@+id/isActive_CheckBox_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_margin="9dp"
-        android:gravity="center"
-        android:contentDescription="@string/todo" />
+        android:contentDescription="@string/todo"
+        android:gravity="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/actorName_TextView_ID"
+            android:id="@+id/title_TextView_ID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -31,10 +31,12 @@
             tools:text="irakli" />
 
         <TextView
-            android:id="@+id/actorRole_TextView_ID"
+            android:visibility="gone"
+            android:id="@+id/description_TextView_ID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
             android:textSize="17sp"
             tools:text="irakli Chkhitunidze" />
 

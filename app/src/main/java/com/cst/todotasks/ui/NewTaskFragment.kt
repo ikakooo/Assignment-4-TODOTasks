@@ -9,6 +9,8 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cst.todotasks.R
+import com.cst.todotasks.data_base_local.DatabaseBuilder.roomDB
+import com.cst.todotasks.data_base_local.RoomTodoListModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -17,10 +19,6 @@ import com.google.android.material.snackbar.Snackbar
  */
 class NewTaskFragment : Fragment(R.layout.fragment_new_task) {
 
-    override fun onResume() {
-        super.onResume()
-        (activity as BasicActivity).title = "New Task"
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,16 +35,32 @@ class NewTaskFragment : Fragment(R.layout.fragment_new_task) {
 
 
 
-       findViewById<FloatingActionButton>(R.id.fab).apply {
+            findViewById<FloatingActionButton>(R.id.fab).apply {
 
-            setOnClickListener {
-                Snackbar.make(view, "Task Saved", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-                d("fsdfsdf",todoTitle.text.toString())
-                findNavController().navigate(R.id.action_NewTaskFragment_to_TaskListFragment)
-                setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_add))
-                title = "New Task"
-            }} }
+                setOnClickListener {
+
+                    if (todoTitle.text.isNotEmpty() && todoDescription.text.isNotEmpty()) {
+                        Snackbar.make(view, "Task Saved", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                        d("fsdfsdf", todoTitle.text.toString())
+                        roomDB.todoListDaoConnection().insertRoomTodoListModel(
+                            RoomTodoListModel(
+                                title = todoTitle.text.toString(),
+                                description = todoDescription.text.toString(),
+                                isActive = true
+                            )
+                        )
+                        findNavController().navigate(R.id.action_NewTaskFragment_to_TaskListFragment)
+                        setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_add))
+                        title = "Todo Tasks"
+                    } else {
+                        Snackbar.make(view, "Task isn't Saved, please fill up fields", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+
+                    }
+                }
+            }
+        }
 
 //        view.findViewById<Button>(R.id.button_second).setOnClickListener {
 //            findNavController().navigate(R.id.action_NewTaskFragment_to_TaskListFragment)

@@ -13,7 +13,7 @@ interface TodoListDao {
     @Query("select * from Todo_List")
     fun getTodoList(): List<RoomTodoListModel>
 
-    @Query("delete from Todo_List where header = :id")
+    @Query("delete from Todo_List where id = :id")
     fun deleteTodoListItem(id: String)
 
     @Query("Select * from Todo_List where isActive =  :isActive")
