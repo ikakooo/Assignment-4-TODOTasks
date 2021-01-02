@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_TaskListFragment_to_NewTaskFragment"
             app:destination="@id/NewTaskFragment" />
+        <action
+            android:id="@+id/action_TaskListFragment_to_EditTaskFragment"
+            app:destination="@id/EditTaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/NewTaskFragment"
@@ -25,6 +28,16 @@
 
         <action
             android:id="@+id/action_NewTaskFragment_to_TaskListFragment"
+            app:destination="@id/TaskListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/EditTaskFragment"
+        android:name="com.cst.todotasks.ui.EditTaskFragment"
+        android:label="@string/EditTaskFragment"
+        tools:layout="@layout/fragment_edit_task">
+
+        <action
+            android:id="@+id/action_EditTaskFragment_to_TaskListFragment"
             app:destination="@id/TaskListFragment" />
     </fragment>
 </navigation>

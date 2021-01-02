@@ -44,6 +44,11 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
             todoListAdapter =
                 TaskListFragmentRecyclerviewAdapter(todoList, object : ItemClickListener {
                     override fun viewClicked(position: Long?) {
+                        val bundle = Bundle()
+                        if (position != null) {
+                            bundle.putLong("TodoTaskLongID", position)
+                            findNavController().navigate(R.id.action_TaskListFragment_to_EditTaskFragment,bundle)
+                        }
 
                     }
                 })

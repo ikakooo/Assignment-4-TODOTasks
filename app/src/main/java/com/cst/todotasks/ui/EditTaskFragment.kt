@@ -1,6 +1,7 @@
 package com.cst.todotasks.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,17 +21,17 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        activity?.apply {
-//       findViewById<FloatingActionButton>(R.id.fab)?.apply {
-//
-//            setOnClickListener {
-//                Snackbar.make(view, "Task Saved", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show()
-//
-//            }} }
+        val bundle = this.arguments
+        val todoTaskLongID: Long = bundle?.getLong("TodoTaskLongID") ?: 1
+        Log.d("idTag", todoTaskLongID.toString())
+        activity?.apply {
+            findViewById<FloatingActionButton>(R.id.fab)?.apply {
+                setOnClickListener {
 
-//        view.findViewById<Button>(R.id.button_second).setOnClickListener {
-//            findNavController().navigate(R.id.action_NewTaskFragment_to_TaskListFragment)
-//        }
+
+
+                }
+            }
+        }
     }
 }
