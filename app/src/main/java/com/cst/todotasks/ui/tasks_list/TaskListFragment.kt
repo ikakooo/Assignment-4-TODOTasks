@@ -1,10 +1,8 @@
-package com.cst.todotasks.ui
+package com.cst.todotasks.ui.tasks_list
 
 import android.os.Bundle
-import android.util.Log.d
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
@@ -14,19 +12,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cst.todotasks.R
-import com.cst.todotasks.data_base_local.DatabaseBuilder
 import com.cst.todotasks.data_base_local.DatabaseBuilder.roomDB
 import com.cst.todotasks.data_base_local.RoomTodoListModel
+import com.cst.todotasks.ui.BasicActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class TaskListFragment : Fragment(R.layout.fragment_task_list) {
-    private val dbAll = roomDB.todoListDaoConnection().getTodoList().toMutableList()
-    private val dbActive = roomDB.todoListDaoConnection().completedTasks(false).toMutableList()
-    private val dbCompleted = roomDB.todoListDaoConnection().completedTasks(true).toMutableList()
+    private var dbAll = roomDB.todoListDaoConnection().getTodoList().toMutableList()
+    private var dbActive = roomDB.todoListDaoConnection().completedTasks(false).toMutableList()
+    private var dbCompleted = roomDB.todoListDaoConnection().completedTasks(true).toMutableList()
 
     private var todoList = mutableListOf<RoomTodoListModel>()
     private lateinit var todoListAdapter: TaskListFragmentRecyclerviewAdapter
@@ -42,25 +39,30 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
         setHasOptionsMenu(true)
         logoNoFillID.isVisible = dbAll.isEmpty()
 
-        d("fdbfdbf", dbAll.toString())
-        d("fdbfdbf", dbActive.toString())
-        d("fdbfdbf", dbCompleted.toString())
 
         view.findViewById<RecyclerView>(R.id.recyclerView).apply {
-            todoListAdapter = TaskListFragmentRecyclerviewAdapter(todoList)
+            todoListAdapter =
+                TaskListFragmentRecyclerviewAdapter(todoList, object : ItemClickListener {
+                    override fun viewClicked(position: Long?) {
+
+                    }
+                })
             layoutManager = LinearLayoutManager(context)
             adapter = todoListAdapter
 
         }
+
+
+        todoList.clear()
         todoList.addAll(dbAll)
+
+
 
         (activity as BasicActivity).apply {
 
             findViewById<FloatingActionButton>(R.id.fab).apply {
 
                 setOnClickListener {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//               .setAction("Action", null).show()
                     findNavController().navigate(R.id.action_TaskListFragment_to_NewTaskFragment)
                     setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_done))
                     title = "New Task"
@@ -86,6 +88,12 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
         when (item.itemId) {
             R.id.menu_clear -> {
                 // TODO თქვენი კოდი
+                roomDB.todoListDaoConnection() deleteTodoListItemsIsCompleted (true)
+                dbAll = roomDB.todoListDaoConnection().getTodoList().toMutableList()
+
+                todoList.clear()
+                todoList.addAll(dbAll)
+                todoListAdapter.notifyDataSetChanged()
 
                 true
             }
@@ -106,24 +114,36 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
             menuInflater.inflate(R.menu.filter_tasks, menu)
 
             setOnMenuItemClickListener {
-                logoNoFillID.isVisible = todoList.isEmpty()
-                    when (it.itemId) {
-                        R.id.active -> {
-                            todoList.clear()
-                            headerTextViewID.text = "Active Tasks"
-                            todoList.addAll(dbActive)
-                        }
-                        R.id.completed -> {
-                            todoList.clear()
-                            headerTextViewID.text = "Completed Tasks"
-                            todoList.addAll(dbCompleted)
-                        }
-                        else -> {
-                            todoList.clear()
-                            headerTextViewID.text = "All Tasks"
-                            todoList.addAll(dbAll)
-                        }
+
+                when (it.itemId) {
+                    R.id.active -> {
+                        dbActive =
+                            roomDB.todoListDaoConnection().completedTasks(false).toMutableList()
+                        todoList.clear()
+                        headerTextViewID.text = "Active Tasks"
+                        todoList.addAll(dbActive)
+                        todoListAdapter.notifyDataSetChanged()
+
                     }
+                    R.id.completed -> {
+                        dbCompleted =
+                            roomDB.todoListDaoConnection().completedTasks(true).toMutableList()
+                        todoList.clear()
+                        headerTextViewID.text = "Completed Tasks"
+                        todoList.addAll(dbCompleted)
+                        todoListAdapter.notifyDataSetChanged()
+
+                    }
+                    else -> {
+                        dbAll = roomDB.todoListDaoConnection().getTodoList().toMutableList()
+                        todoList.clear()
+                        headerTextViewID.text = "All Tasks"
+                        todoList.addAll(dbAll)
+                        todoListAdapter.notifyDataSetChanged()
+                    }
+                }
+
+                logoNoFillID.isVisible = todoList.isEmpty()
                 true
             }
             show()

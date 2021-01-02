@@ -1,4 +1,4 @@
-package com.cst.todotasks.ui
+package com.cst.todotasks.ui.tasks_list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +11,11 @@ import com.cst.todotasks.data_base_local.DatabaseBuilder.roomDB
 import com.cst.todotasks.data_base_local.RoomTodoListModel
 import com.cst.todotasks.extensions.myCustomSnackbar
 import com.cst.todotasks.extensions.showStrikeThrough
+import com.cst.todotasks.ui.tasks_list.TaskListFragment.Companion.createInstance
 
 
 class TaskListFragmentRecyclerviewAdapter(
-    val todoList: MutableList<RoomTodoListModel>
+    val todoList: MutableList<RoomTodoListModel>, val clickingListener: ItemClickListener
 ) :
     RecyclerView.Adapter<TaskListFragmentRecyclerviewAdapter.ViewHolder>() {
 
@@ -42,16 +43,18 @@ class TaskListFragmentRecyclerviewAdapter(
             isActiveCheckBoxID.setOnCheckedChangeListener { buttonView, isChecked ->
                 titleTextView.showStrikeThrough(isChecked)
                 if (isChecked) {
-                    buttonView.myCustomSnackbar("Task Marked Completed")
+                    createInstance().view?.myCustomSnackbar("Task Marked Completed")
                     roomDB.todoListDaoConnection().updateActiveOrCompleted(isChecked, model.id)
                 } else {
 
-                    buttonView.myCustomSnackbar("Task Marked Active")
+                    createInstance().view?.myCustomSnackbar("Task Marked Active")
                     roomDB.todoListDaoConnection().updateActiveOrCompleted(isChecked, model.id)
                 }
             }
 
-
+            itemView.findViewById<TextView>(R.id.title_TextView_ID).setOnClickListener {
+                clickingListener.viewClicked(model.id)
+            }
             //  itemView.findViewById<TextView>(R.id.description_TextView_ID).text = model.description
 
 //            itemView.findViewById<TextView>(R.id.actorName_TextView_ID).text = model.fullName

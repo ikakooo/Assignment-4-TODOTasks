@@ -13,8 +13,8 @@ interface TodoListDao {
     @Query("select * from Todo_List")
     fun getTodoList(): List<RoomTodoListModel>
 
-    @Query("delete from Todo_List where id = :id")
-    fun deleteTodoListItem(id: String)
+    @Query("delete from Todo_List where isCompleted = :isCompleted")
+    infix fun deleteTodoListItemsIsCompleted(isCompleted: Boolean)
 
     @Query("Select * from Todo_List where isCompleted =  :isCompleted")
     fun completedTasks(isCompleted: Boolean): List<RoomTodoListModel>
