@@ -5,9 +5,11 @@ import android.util.Log.d
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,19 +24,27 @@ import com.google.android.material.snackbar.Snackbar
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class TaskListFragment : Fragment(R.layout.fragment_task_list) {
+    private val dbAll = roomDB.todoListDaoConnection().getTodoList().toMutableList()
+    private val dbActive = roomDB.todoListDaoConnection().completedTasks(false).toMutableList()
+    private val dbCompleted = roomDB.todoListDaoConnection().completedTasks(true).toMutableList()
+
     private var todoList = mutableListOf<RoomTodoListModel>()
     private lateinit var todoListAdapter: TaskListFragmentRecyclerviewAdapter
 
     private lateinit var headerTextViewID: TextView
+    private lateinit var logoNoFillID: ImageView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         headerTextViewID = view.findViewById(R.id.headerTextView_ID)
+        headerTextViewID = view.findViewById(R.id.headerTextView_ID)
+        logoNoFillID = view.findViewById(R.id.logo_no_fill_ID)
 
         setHasOptionsMenu(true)
-        val db = roomDB.todoListDaoConnection().getTodoList().toMutableList()
-        d("fdbfdbf",db.toString())
+        logoNoFillID.isVisible = dbAll.isEmpty()
 
+        d("fdbfdbf", dbAll.toString())
+        d("fdbfdbf", dbActive.toString())
+        d("fdbfdbf", dbCompleted.toString())
 
         view.findViewById<RecyclerView>(R.id.recyclerView).apply {
             todoListAdapter = TaskListFragmentRecyclerviewAdapter(todoList)
@@ -42,11 +52,7 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
             adapter = todoListAdapter
 
         }
-
-//        db.forEach { todo ->
-//
-//        }
-        todoList.addAll(db)
+        todoList.addAll(dbAll)
 
         (activity as BasicActivity).apply {
 
@@ -58,6 +64,14 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
                     findNavController().navigate(R.id.action_TaskListFragment_to_NewTaskFragment)
                     setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_done))
                     title = "New Task"
+
+
+                    supportActionBar?.apply {
+
+                        setDisplayHomeAsUpEnabled(true)
+                        setDisplayShowHomeEnabled(true)
+                        setHomeButtonEnabled(true)
+                    }
 
                 }
             }
@@ -92,22 +106,24 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
             menuInflater.inflate(R.menu.filter_tasks, menu)
 
             setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.active -> {
-                        // TODO თქვენი კოდი
-                        headerTextViewID.text="Active Tasks"
-
+                logoNoFillID.isVisible = todoList.isEmpty()
+                    when (it.itemId) {
+                        R.id.active -> {
+                            todoList.clear()
+                            headerTextViewID.text = "Active Tasks"
+                            todoList.addAll(dbActive)
+                        }
+                        R.id.completed -> {
+                            todoList.clear()
+                            headerTextViewID.text = "Completed Tasks"
+                            todoList.addAll(dbCompleted)
+                        }
+                        else -> {
+                            todoList.clear()
+                            headerTextViewID.text = "All Tasks"
+                            todoList.addAll(dbAll)
+                        }
                     }
-                    R.id.completed -> {
-                        // TODO თქვენი კოდი
-                        headerTextViewID.text="Completed Tasks"
-
-                    }
-                    else -> {
-                        // TODO თქვენი კოდი
-                        headerTextViewID.text="All Tasks"
-                    }
-                }
                 true
             }
             show()

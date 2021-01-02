@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.cst.todotasks.R
 import com.cst.todotasks.data_base_local.DatabaseBuilder.roomDB
 import com.cst.todotasks.data_base_local.RoomTodoListModel
+import com.cst.todotasks.extensions.myCustomSnackbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -26,13 +27,6 @@ class NewTaskFragment : Fragment(R.layout.fragment_new_task) {
         val todoDescription = view.findViewById<EditText>(R.id.todoDescription_EditText_ID)
 
         (activity as BasicActivity).apply {
-            supportActionBar?.apply {
-
-                setDisplayHomeAsUpEnabled(true)
-                setDisplayShowHomeEnabled(true)
-                setHomeButtonEnabled(true)
-            }
-
 
 
             findViewById<FloatingActionButton>(R.id.fab).apply {
@@ -40,23 +34,29 @@ class NewTaskFragment : Fragment(R.layout.fragment_new_task) {
                 setOnClickListener {
 
                     if (todoTitle.text.isNotEmpty() && todoDescription.text.isNotEmpty()) {
-                        Snackbar.make(view, "Task Saved", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
+                        myCustomSnackbar("Task Saved")
                         d("fsdfsdf", todoTitle.text.toString())
                         roomDB.todoListDaoConnection().insertRoomTodoListModel(
                             RoomTodoListModel(
                                 title = todoTitle.text.toString(),
                                 description = todoDescription.text.toString(),
-                                isActive = true
+                                isCompleted = false
                             )
                         )
                         findNavController().navigate(R.id.action_NewTaskFragment_to_TaskListFragment)
                         setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_add))
                         title = "Todo Tasks"
-                    } else {
-                        Snackbar.make(view, "Task isn't Saved, please fill up fields", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
 
+
+
+                        supportActionBar?.apply {
+
+                            setDisplayHomeAsUpEnabled(false)
+                            setDisplayShowHomeEnabled(false)
+                            setHomeButtonEnabled(false)
+                        }
+                    } else {
+                        myCustomSnackbar("Task isn't Saved, please fill up fields")
                     }
                 }
             }
