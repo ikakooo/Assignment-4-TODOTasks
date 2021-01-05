@@ -3,6 +3,7 @@ package com.cst.todotasks.ui
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.util.Log.d
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.cst.todotasks.R
 import com.cst.todotasks.data_base_local.DatabaseBuilder
 import com.cst.todotasks.data_base_local.DatabaseBuilder.roomDB
+import com.cst.todotasks.extensions.myCustomSnackbar
 import com.cst.todotasks.extensions.toEditable
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -39,22 +41,19 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
 
         isActiveEditCheckBoxID.isChecked = todoTask.isCompleted
-        isActiveEditCheckBoxID.isEnabled = true
         todoTitleEditEditTextID.text = todoTask.title.toEditable()
-        todoTitleEditEditTextID.inputType = InputType.TYPE_CLASS_TEXT
         todoDescriptionEditEditTextID.text = todoTask.description.toEditable()
-        todoDescriptionEditEditTextID.inputType = InputType.TYPE_CLASS_TEXT
-        isActiveEditCheckBoxID.setOnCheckedChangeListener { buttonView, isChecked ->
 
-
-        }
         (activity as BasicActivity).apply {
             findViewById<FloatingActionButton>(R.id.fab_ID).apply {
                 setOnClickListener {
-
-                    roomDB.todoListDaoConnection().editTodoTask(todoTitleEditEditTextID.text.toString(),todoDescriptionEditEditTextID.text.toString(),isActiveEditCheckBoxID.isChecked,todoTaskLongID)
-                    setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_edit))
+d("ddsdvds",todoTask.toString())
+                    roomDB.todoListDaoConnection().editTodoTask(title = todoTitleEditEditTextID.text.toString(),description = todoDescriptionEditEditTextID.text.toString(),isCompleted= isActiveEditCheckBoxID.isChecked,id = todoTaskLongID)
+                    setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_add))
                     title = "Todo Tasks"
+                    myCustomSnackbar("Task Edited")
+                    findNavController().navigate(R.id.action_EditTaskFragment_to_TaskListFragment)
+
 
 
 

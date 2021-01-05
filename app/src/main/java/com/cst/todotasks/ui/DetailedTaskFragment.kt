@@ -19,7 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class DetailedTaskFragment : Fragment(R.layout.fragment_edit_task) {
+class DetailedTaskFragment : Fragment(R.layout.fragment_detile_task) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,9 +28,9 @@ class DetailedTaskFragment : Fragment(R.layout.fragment_edit_task) {
         val todoTaskLongID: Long = bundle?.getLong("TodoTaskLongID") ?: 1
         Log.d("idTag", todoTaskLongID.toString())
 
-        val isActiveEditCheckBoxID = view.findViewById<CheckBox>(R.id.isActiveEdit_CheckBox_ID)
-        val todoTitleEditEditTextID = view.findViewById<EditText>(R.id.todoTitleEdit_EditText_ID)
-        val todoDescriptionEditEditTextID = view.findViewById<EditText>(R.id.todoDescriptionEdit_EditText_ID)
+        val isActiveEditCheckBoxID = view.findViewById<CheckBox>(R.id.isActiveDetail_CheckBox_ID)
+        val todoTitleEditEditTextID = view.findViewById<EditText>(R.id.todoTitleDetail_EditText_ID)
+        val todoDescriptionEditEditTextID = view.findViewById<EditText>(R.id.todoDescriptionDetail_EditText_ID)
 
         val todoTask = roomDB.todoListDaoConnection().getTodoTask(todoTaskLongID)
 
@@ -42,6 +42,7 @@ class DetailedTaskFragment : Fragment(R.layout.fragment_edit_task) {
         todoDescriptionEditEditTextID.inputType = InputType.TYPE_NULL
         isActiveEditCheckBoxID.isChecked = if (todoTask.isCompleted) {
             todoTitleEditEditTextID.showStrikeThrough(true)
+            todoDescriptionEditEditTextID.showStrikeThrough(true)
             true
         } else false
 
@@ -62,17 +63,15 @@ class DetailedTaskFragment : Fragment(R.layout.fragment_edit_task) {
                 setOnClickListener {
                     findNavController().navigate(R.id.action_DetailedTaskFragment_to_EditTaskFragment,bundle)
 //                    roomDB.todoListDaoConnection().editTodoTask(todoTitleEditEditTextID.text.toString(),todoDescriptionEditEditTextID.text.toString(),isActiveEditCheckBoxID.isChecked,todoTaskLongID)
-                    setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_add))
+                    setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_done))
                     title = "Edit Tasks"
 
-
-
-                    supportActionBar?.apply {
-
-                        setDisplayHomeAsUpEnabled(false)
-                        setDisplayShowHomeEnabled(false)
-                        setHomeButtonEnabled(false)
-                    }
+//                    supportActionBar?.apply {
+//
+//                        setDisplayHomeAsUpEnabled(false)
+//                        setDisplayShowHomeEnabled(false)
+//                        setHomeButtonEnabled(false)
+//                    }
                 }
             }
         }
