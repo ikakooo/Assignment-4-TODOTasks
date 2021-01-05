@@ -30,11 +30,13 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
 
     private lateinit var headerTextViewID: TextView
     private lateinit var logoNoFillID: ImageView
+    private lateinit var actionButtonFab: FloatingActionButton
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         headerTextViewID = view.findViewById(R.id.headerTextView_ID)
         logoNoFillID = view.findViewById(R.id.logo_no_fill_ID)
+        actionButtonFab=(activity as BasicActivity).findViewById(R.id.fab_ID)
 
         setHasOptionsMenu(true)
         logoNoFillID.isVisible = dbAll.isEmpty()
@@ -42,12 +44,22 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
 
         view.findViewById<RecyclerView>(R.id.recyclerView).apply {
             todoListAdapter =
-                TaskListFragmentRecyclerviewAdapter(todoList, object : ItemClickListener {
+                TaskListFragmentRecyclerviewAdapter(view,todoList, object : ItemClickListener {
                     override fun viewClicked(position: Long?) {
                         val bundle = Bundle()
                         if (position != null) {
                             bundle.putLong("TodoTaskLongID", position)
-                            findNavController().navigate(R.id.action_TaskListFragment_to_EditTaskFragment,bundle)
+                            findNavController().navigate(R.id.action_TaskListFragment_to_DetailedTaskFragment,bundle)
+                            actionButtonFab.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_edit))
+                            (activity as BasicActivity).title = "Detailed Task"
+                            (activity as BasicActivity).supportActionBar?.apply {
+
+                                setDisplayHomeAsUpEnabled(true)
+                                setDisplayShowHomeEnabled(true)
+                                setHomeButtonEnabled(true)
+                            }
+
+
                         }
 
                     }
@@ -65,7 +77,7 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
 
         (activity as BasicActivity).apply {
 
-            findViewById<FloatingActionButton>(R.id.fab).apply {
+            actionButtonFab.apply {
 
                 setOnClickListener {
                     findNavController().navigate(R.id.action_TaskListFragment_to_NewTaskFragment)
@@ -93,7 +105,7 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
         when (item.itemId) {
             R.id.menu_clear -> {
                 // TODO თქვენი კოდი
-                roomDB.todoListDaoConnection() deleteTodoListItemsIsCompleted (true)
+                roomDB.todoListDaoConnection().deleteTodoListItemsIsCompleted(true)
                 dbAll = roomDB.todoListDaoConnection().getTodoList().toMutableList()
 
                 todoList.clear()

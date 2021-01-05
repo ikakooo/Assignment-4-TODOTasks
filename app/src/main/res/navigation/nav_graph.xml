@@ -5,6 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/TaskListFragment">
 
+
     <fragment
         android:id="@+id/TaskListFragment"
         android:name="com.cst.todotasks.ui.tasks_list.TaskListFragment"
@@ -16,8 +17,8 @@
             android:id="@+id/action_TaskListFragment_to_NewTaskFragment"
             app:destination="@id/NewTaskFragment" />
         <action
-            android:id="@+id/action_TaskListFragment_to_EditTaskFragment"
-            app:destination="@id/EditTaskFragment" />
+            android:id="@+id/action_TaskListFragment_to_DetailedTaskFragment"
+            app:destination="@id/DetailedTaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/NewTaskFragment"
@@ -39,5 +40,16 @@
         <action
             android:id="@+id/action_EditTaskFragment_to_TaskListFragment"
             app:destination="@id/TaskListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/DetailedTaskFragment"
+        android:name="com.cst.todotasks.ui.DetailedTaskFragment"
+        android:label="@string/DetailedTaskFragment"
+        tools:layout="@layout/fragment_edit_task">
+
+        <action
+            android:id="@+id/action_DetailedTaskFragment_to_EditTaskFragment"
+            app:destination="@id/EditTaskFragment" />
     </fragment>
 </navigation>

@@ -15,6 +15,8 @@ import com.cst.todotasks.Constants.newTaskFragment
 import com.cst.todotasks.Constants.taskListFragment
 import com.cst.todotasks.R
 import com.cst.todotasks.databinding.ActivityBasicBinding
+import com.cst.todotasks.ui.tasks_list.TaskListFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class BasicActivity : AppCompatActivity() {
     private val bindingActivity by viewBinding(ActivityBasicBinding::inflate)
@@ -25,10 +27,11 @@ class BasicActivity : AppCompatActivity() {
         setContentView(bindingActivity.root)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        val navController = findNavController(R.id.nav_host_fragment)
+       // val navController = findNavController(R.id.nav_host_fragment)
 //        supportActionBar?.setStackedBackgroundDrawable(AppCompatResources.getDrawable(baseContext, R.drawable.ic_list))
 
-
+//       val  actionButtonFab=findViewById<FloatingActionButton>(R.id.fab_ID)
+//        actionButtonFab.setImageDrawable(AppCompatResources.getDrawable(baseContext, R.drawable.ic_done))
         // replaceFragment(R.id.fragment_container, TaskListFragment.createInstance())
 //        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -71,6 +74,7 @@ class BasicActivity : AppCompatActivity() {
 //
 //            }
 //        }
+       // View.myCustomSnackbar("Task Marked Active")
     }
 
 //    override fun onSupportNavigateUp(): Boolean {
@@ -82,7 +86,11 @@ class BasicActivity : AppCompatActivity() {
 //        return navController.navigateUp() || super.onSupportNavigateUp()
 //    }
 
+    companion object {
 
+        fun activityInstance() = BasicActivity()
+
+    }
 
     private inline fun <T : ViewBinding> AppCompatActivity.viewBinding(
         crossinline bindingInflater: (LayoutInflater) -> T

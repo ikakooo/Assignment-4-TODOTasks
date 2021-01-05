@@ -29,7 +29,7 @@ class NewTaskFragment : Fragment(R.layout.fragment_new_task) {
         (activity as BasicActivity).apply {
 
 
-            findViewById<FloatingActionButton>(R.id.fab).apply {
+            findViewById<FloatingActionButton>(R.id.fab_ID).apply {
 
                 setOnClickListener {
 

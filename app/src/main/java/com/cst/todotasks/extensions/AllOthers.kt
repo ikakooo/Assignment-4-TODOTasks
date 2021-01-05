@@ -1,6 +1,7 @@
 package com.cst.todotasks.extensions
 
 import android.graphics.Paint
+import android.text.Editable
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -24,3 +25,5 @@ fun View.myCustomSnackbar(text: String){
     Snackbar.make(this, text, Snackbar.LENGTH_LONG)
         .setAction("Action", null).show()
 }
+
+fun String.toEditable(): Editable =  Editable.Factory.getInstance().newEditable(this)

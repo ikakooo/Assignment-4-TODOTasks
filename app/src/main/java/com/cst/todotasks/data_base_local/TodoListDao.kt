@@ -22,4 +22,9 @@ interface TodoListDao {
     @Query("UPDATE Todo_List SET isCompleted=:isCompleted WHERE id = :id")
     fun updateActiveOrCompleted(isCompleted: Boolean, id: Long?)
 
+    @Query("UPDATE Todo_List SET title = :title and description= :description and isCompleted=:isCompleted WHERE id = :id")
+    fun editTodoTask(title:String,description:String,isCompleted: Boolean, id: Long?)
+
+    @Query("select * from Todo_List WHERE id = :id")
+    fun getTodoTask(id: Long?):RoomTodoListModel
 }
