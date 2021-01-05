@@ -57,6 +57,7 @@ class TaskListFragment : Fragment(R.layout.fragment_task_list) {
                                 setDisplayHomeAsUpEnabled(true)
                                 setDisplayShowHomeEnabled(true)
                                 setHomeButtonEnabled(true)
+                               // setIcon(R.drawable.trash_icon)
                             }
 
 

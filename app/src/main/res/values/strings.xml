@@ -22,4 +22,5 @@
     <string name="all_task">All Task</string>
     <string name="EditTaskFragment">Edit Task Fragment</string>
     <string name="DetailedTaskFragment">Detailed Task Fragment</string>
+    <string name="delete_task">Delete Task</string>
 </resources>

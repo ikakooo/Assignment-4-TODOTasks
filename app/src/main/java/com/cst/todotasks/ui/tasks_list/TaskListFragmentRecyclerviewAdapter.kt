@@ -43,7 +43,7 @@ class TaskListFragmentRecyclerviewAdapter(val view:View,
                 true
             } else false
             titleTextView.text = model.title
-            isActiveCheckBoxID.setOnCheckedChangeListener { buttonView, isChecked ->
+            isActiveCheckBoxID.setOnCheckedChangeListener { _, isChecked ->
                 d("isChecked",isChecked.toString())
                 titleTextView.showStrikeThrough(isChecked)
                 if (isChecked) {

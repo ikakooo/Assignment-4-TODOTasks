@@ -27,4 +27,7 @@ interface TodoListDao {
 
     @Update
     fun updateTodoTask(todoList: RoomTodoListModel)
+
+    @Query("delete from Todo_List where id = :id ")
+    fun deleteTaskById(id: Long?)
 }

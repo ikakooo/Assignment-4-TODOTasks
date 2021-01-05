@@ -3,6 +3,9 @@ package com.cst.todotasks.ui
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.CheckBox
@@ -11,6 +14,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.fragment.findNavController
 import com.cst.todotasks.R
 import com.cst.todotasks.data_base_local.DatabaseBuilder.roomDB
+import com.cst.todotasks.data_base_local.RoomTodoListModel
 import com.cst.todotasks.extensions.myCustomSnackbar
 import com.cst.todotasks.extensions.showStrikeThrough
 import com.cst.todotasks.extensions.toEditable
@@ -20,9 +24,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class DetailedTaskFragment : Fragment(R.layout.fragment_detile_task) {
+    private lateinit var  todoTask:RoomTodoListModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         val bundle = this.arguments
         val todoTaskLongID: Long = bundle?.getLong("TodoTaskLongID") ?: 1
@@ -32,7 +38,7 @@ class DetailedTaskFragment : Fragment(R.layout.fragment_detile_task) {
         val todoTitleEditEditTextID = view.findViewById<EditText>(R.id.todoTitleDetail_EditText_ID)
         val todoDescriptionEditEditTextID = view.findViewById<EditText>(R.id.todoDescriptionDetail_EditText_ID)
 
-        val todoTask = roomDB.todoListDaoConnection().getTodoTask(todoTaskLongID)
+        todoTask = roomDB.todoListDaoConnection().getTodoTask(todoTaskLongID)
 
 
 
@@ -46,7 +52,7 @@ class DetailedTaskFragment : Fragment(R.layout.fragment_detile_task) {
             true
         } else false
 
-        isActiveEditCheckBoxID.setOnCheckedChangeListener { buttonView, isChecked ->
+        isActiveEditCheckBoxID.setOnCheckedChangeListener { _, isChecked ->
             Log.d("isChecked", isChecked.toString())
             todoTitleEditEditTextID.showStrikeThrough(isChecked)
             todoDescriptionEditEditTextID.showStrikeThrough(isChecked)
@@ -66,14 +72,32 @@ class DetailedTaskFragment : Fragment(R.layout.fragment_detile_task) {
                     setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_done))
                     title = "Edit Tasks"
 
-//                    supportActionBar?.apply {
-//
-//                        setDisplayHomeAsUpEnabled(false)
-//                        setDisplayShowHomeEnabled(false)
-//                        setHomeButtonEnabled(false)
-//                    }
+                    supportActionBar?.apply {
+
+                       // setDisplayHomeAsUpEnabled(false)
+                       // setDisplayShowHomeEnabled(false)
+                      //  setHomeButtonEnabled(false)
+                       setDisplayShowTitleEnabled(true)
+                        setDisplayShowHomeEnabled(true)
+
+                    }
                 }
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.trash_button, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
+            R.id.delete_Task -> {
+                roomDB.todoListDaoConnection().deleteTaskById(todoTask.id)
+                findNavController().navigate(R.id.action_DetailedTaskFragment_to_TaskListFragment)
+                true
+            }
+
+            else -> false
+        }
 }
