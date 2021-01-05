@@ -10,24 +10,26 @@ interface TodoListDao {
     @Query("select * from Todo_List")
     fun getTodoList(): List<RoomTodoListModel>
 
-    @Query("delete from Todo_List where isCompleted = :isCompleted")
-    infix fun deleteTodoListItemsIsCompleted(isCompleted: Boolean)
+    @Query("select * from Todo_List WHERE id = :id")
+    fun getTodoTask(id: Long?): RoomTodoListModel
 
     @Query("Select * from Todo_List where isCompleted =  :isCompleted")
     fun completedTasks(isCompleted: Boolean): List<RoomTodoListModel>
+
 
     @Query("UPDATE Todo_List SET isCompleted=:isCompleted WHERE id = :id")
     fun updateActiveOrCompleted(isCompleted: Boolean, id: Long?)
 
     @Query("UPDATE Todo_List SET title = :title and description= :description and isCompleted=:isCompleted WHERE id = :id")
-    fun saveEditedTodoTask(title:String,description:String,isCompleted: Boolean, id: Long?)
-
-    @Query("select * from Todo_List WHERE id = :id")
-    fun getTodoTask(id: Long?):RoomTodoListModel
+    fun saveEditedTodoTask(title: String, description: String, isCompleted: Boolean, id: Long?)
 
     @Update
     fun updateTodoTask(todoList: RoomTodoListModel)
 
+
     @Query("delete from Todo_List where id = :id ")
     fun deleteTaskById(id: Long?)
+
+    @Query("delete from Todo_List where isCompleted = :isCompleted")
+    infix fun deleteTodoListItemsIsCompleted(isCompleted: Boolean)
 }

@@ -32,7 +32,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
 
         val bundle = this.arguments
         val todoTaskLongID: Long = bundle?.getLong("TodoTaskLongID") ?: 1
-        Log.d("idTag", todoTaskLongID.toString())
+        d("idTag", todoTaskLongID.toString())
 
         val isActiveEditCheckBoxID = view.findViewById<CheckBox>(R.id.isActiveEdit_CheckBox_ID)
         val todoTitleEditEditTextID = view.findViewById<EditText>(R.id.todoTitleEdit_EditText_ID)
@@ -50,24 +50,14 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task) {
             findViewById<FloatingActionButton>(R.id.fab_ID).apply {
                 setOnClickListener {
                     d("ddsdvds", todoTask.toString() + "dfdv" + todoTaskLongID)
-//                    roomDB.todoListDaoConnection().editTodoTask(
-//                        title = todoTitleEditEditTextID.text.toString(),
-//                        description = todoDescriptionEditEditTextID.text.toString(),
-//                        isCompleted = isActiveEditCheckBoxID.isChecked,
-//                        id = todoTaskLongID
-//                    )
+
                     roomDB.todoListDaoConnection().updateTodoTask(RoomTodoListModel(
                         title = todoTitleEditEditTextID.text.toString(),
                         description = todoDescriptionEditEditTextID.text.toString(),
                         isCompleted = isActiveEditCheckBoxID.isChecked,
                         id = todoTaskLongID
                     ))
-//                    roomDB.todoListDaoConnection().saveEditedTodoTask(
-//                        title = "todoTitleEditEditTextID.text.toString()",
-//                        description = "todoDescriptionEditEditTextID.text.toString()",
-//                        isCompleted = true,
-//                        id = todoTaskLongID
-//                    )
+
                     setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_add))
                     title = "Todo Tasks"
                     myCustomSnackbar("Task Edited")

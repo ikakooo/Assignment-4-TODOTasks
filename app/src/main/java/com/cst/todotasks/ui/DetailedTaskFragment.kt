@@ -24,7 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class DetailedTaskFragment : Fragment(R.layout.fragment_detile_task) {
-    private lateinit var  todoTask:RoomTodoListModel
+    private lateinit var todoTask: RoomTodoListModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,7 +36,8 @@ class DetailedTaskFragment : Fragment(R.layout.fragment_detile_task) {
 
         val isActiveEditCheckBoxID = view.findViewById<CheckBox>(R.id.isActiveDetail_CheckBox_ID)
         val todoTitleEditEditTextID = view.findViewById<EditText>(R.id.todoTitleDetail_EditText_ID)
-        val todoDescriptionEditEditTextID = view.findViewById<EditText>(R.id.todoDescriptionDetail_EditText_ID)
+        val todoDescriptionEditEditTextID =
+            view.findViewById<EditText>(R.id.todoDescriptionDetail_EditText_ID)
 
         todoTask = roomDB.todoListDaoConnection().getTodoTask(todoTaskLongID)
 
@@ -67,17 +68,16 @@ class DetailedTaskFragment : Fragment(R.layout.fragment_detile_task) {
         (activity as BasicActivity).apply {
             findViewById<FloatingActionButton>(R.id.fab_ID).apply {
                 setOnClickListener {
-                    findNavController().navigate(R.id.action_DetailedTaskFragment_to_EditTaskFragment,bundle)
-//                    roomDB.todoListDaoConnection().editTodoTask(todoTitleEditEditTextID.text.toString(),todoDescriptionEditEditTextID.text.toString(),isActiveEditCheckBoxID.isChecked,todoTaskLongID)
+                    findNavController().navigate(
+                        R.id.action_DetailedTaskFragment_to_EditTaskFragment,
+                        bundle
+                    )
                     setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_done))
                     title = "Edit Tasks"
 
                     supportActionBar?.apply {
 
-                       // setDisplayHomeAsUpEnabled(false)
-                       // setDisplayShowHomeEnabled(false)
-                      //  setHomeButtonEnabled(false)
-                       setDisplayShowTitleEnabled(true)
+                        setDisplayShowTitleEnabled(true)
                         setDisplayShowHomeEnabled(true)
 
                     }

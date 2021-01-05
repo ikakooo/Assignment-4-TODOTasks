@@ -8,12 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 
-fun AppCompatActivity.replaceFragment(mainFragmentId: Int, baseFragment: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(mainFragmentId, baseFragment, baseFragment::class.java.simpleName)
-            .commitAllowingStateLoss()
-    }
 
 fun TextView.showStrikeThrough(show: Boolean) {
     paintFlags =

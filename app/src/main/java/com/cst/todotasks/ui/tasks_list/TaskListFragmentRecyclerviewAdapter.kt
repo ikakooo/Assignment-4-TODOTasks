@@ -1,6 +1,5 @@
 package com.cst.todotasks.ui.tasks_list
 
-import android.content.Context
 import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +12,10 @@ import com.cst.todotasks.data_base_local.DatabaseBuilder.roomDB
 import com.cst.todotasks.data_base_local.RoomTodoListModel
 import com.cst.todotasks.extensions.myCustomSnackbar
 import com.cst.todotasks.extensions.showStrikeThrough
-import com.cst.todotasks.ui.BasicActivity.Companion.activityInstance
-import com.cst.todotasks.ui.tasks_list.TaskListFragment.Companion.createInstance
 
 
-class TaskListFragmentRecyclerviewAdapter(val view:View,
+class TaskListFragmentRecyclerviewAdapter(
+    val view: View,
     val todoList: MutableList<RoomTodoListModel>, val clickingListener: ItemClickListener
 ) :
     RecyclerView.Adapter<TaskListFragmentRecyclerviewAdapter.ViewHolder>() {
@@ -44,7 +42,7 @@ class TaskListFragmentRecyclerviewAdapter(val view:View,
             } else false
             titleTextView.text = model.title
             isActiveCheckBoxID.setOnCheckedChangeListener { _, isChecked ->
-                d("isChecked",isChecked.toString())
+                d("isChecked", isChecked.toString())
                 titleTextView.showStrikeThrough(isChecked)
                 if (isChecked) {
                     view.myCustomSnackbar("Task Marked Completed")
@@ -59,13 +57,7 @@ class TaskListFragmentRecyclerviewAdapter(val view:View,
             itemView.findViewById<TextView>(R.id.title_TextView_ID).setOnClickListener {
                 clickingListener.viewClicked(model.id)
             }
-            //  itemView.findViewById<TextView>(R.id.description_TextView_ID).text = model.description
 
-//            itemView.findViewById<TextView>(R.id.actorName_TextView_ID).text = model.fullName
-//            itemView.findViewById<TextView>(R.id.actorRole_TextView_ID).text = model.role
-//            Glide.with(itemView.context).load(  model.imageUrl)
-            //textView.setPaintFlags(textView.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
-//                .into(itemView.findViewById(R.id.actorProfilePhoto_ImageView_ID))
         }
 
     }

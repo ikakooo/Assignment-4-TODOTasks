@@ -62,8 +62,5 @@ class NewTaskFragment : Fragment(R.layout.fragment_new_task) {
             }
         }
 
-//        view.findViewById<Button>(R.id.button_second).setOnClickListener {
-//            findNavController().navigate(R.id.action_NewTaskFragment_to_TaskListFragment)
-//        }
     }
 }
