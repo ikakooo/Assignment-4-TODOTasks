@@ -1,9 +1,6 @@
 package com.cst.todotasks.data_base_local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface TodoListDao {
@@ -23,8 +20,11 @@ interface TodoListDao {
     fun updateActiveOrCompleted(isCompleted: Boolean, id: Long?)
 
     @Query("UPDATE Todo_List SET title = :title and description= :description and isCompleted=:isCompleted WHERE id = :id")
-    fun editTodoTask(title:String,description:String,isCompleted: Boolean, id: Long?)
+    fun saveEditedTodoTask(title:String,description:String,isCompleted: Boolean, id: Long?)
 
     @Query("select * from Todo_List WHERE id = :id")
     fun getTodoTask(id: Long?):RoomTodoListModel
+
+    @Update
+    fun updateTodoTask(todoList: RoomTodoListModel)
 }
